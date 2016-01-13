@@ -40,6 +40,9 @@ mount() {
   sudo nfsd enable
   sudo nfsd start
 
+  ## Start dev machine if not already started
+  docker-machine start dev
+
   ## Load docker ENV vars
   eval $(docker-machine env dev)
 
