@@ -70,7 +70,7 @@ case "$1" in
     install
     ;;
   mount)
-    current_path=$(pwd)
+    current_path="cd $2; $(pwd)"
     mount
     ;;
   *)
