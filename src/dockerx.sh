@@ -68,6 +68,6 @@ case "$1" in
     mount
     ;;
   *)
-    echo $"Usage: $0 {setup|mount <path>}"
+    echo $"Usage: $0 {install|mount <path>}"
     exit 1
 esac
