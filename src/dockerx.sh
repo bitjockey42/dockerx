@@ -1,12 +1,6 @@
-#!/usr/bin/env
+#!/usr/bin/env sh
 
 install() {
-  ## Install homebrew if not already installed
-  if ! homebrew_installation="$(type -p "$brew)" || [ -z "$homebrew_installation" ]; then
-    echo '[homebrew](http://brew.sh) is not installed. Installing it now.'
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  fi
-
   ## Prerequisites
   echo 'Installing xhyve, docker, docker-compose, and go'
   brew install xhyve docker docker-compose go
