@@ -40,12 +40,34 @@ install() {
   sudo chmod u+s $GOPATH/bin/docker-machine-driver-xhyve
 }
 
+mount() {
+  ## Set up NFS share on HOST machine
+  sudo echo "$current_path -mapall=$(id -u)" >> /etc/exports
+  sudo nfsd enable
+  sudo nfsd start
+
+  ## Load docker ENV vars
+  eval $(docker-machine env dev)
+
+  ## Create NFS folder in tinycore
+  docker-machine ssh dev "mkdir -p ~/mounts/$(basename current_path)"
+
+  ## Mount in tinycore
+  docker-machine ssh dev "sudo mount -o nolock -t nfs 192.168.64.1:$current_path ~/mounts/$(basename current_path)"
+
+  ## NOTE: 192.168.64.1 is the IP of the host machine
+  ## Then, in docker-compose.yml, the shared folder on tinycorelinux will be what you want to use
+  ##
+  ##  volumes:
+  ##    - /home/docker/shared:/answerqueue
+}
+
 case "$1" in
   install)
     install
     ;;
   mount)
-    FOLDER=$2
+    current_path=$(pwd)
     mount
     ;;
   *)
